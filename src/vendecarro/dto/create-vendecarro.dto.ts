@@ -1,11 +1,4 @@
-export class CreateVendecarroDto {}
-
-import {
-    IsInt,
-    IsString
-} from 'class-validator'
-
-export class Vendecarro {
+export class CreateVendecarroDto {
     @IsInt()
     id: number; // Id do carro
     manufactureYear: number; // Ano de fabricação do carro
@@ -16,4 +9,8 @@ export class Vendecarro {
     engine: string; // Motor 4.0 V8
 }
 
+import {
+    IsInt,
+    IsString
+} from 'class-validator'
 

@@ -21,7 +21,15 @@ export class VendecarroService {
 
   async create(createVendecarroDto: CreateVendecarroDto):Promise<Vendecarro>{
     return await this.prisma.vendeCarro.create({
-      data: this.mapToEntity(createVendecarroDto)
+      data: this.mapToEntity({
+        data: {
+              manufactureYear: createVendecarroDto.manufactureYear, // Ano de fabricação do carro
+              horsepower: createVendecarroDto.horsepower, // potência do motor em cavalos (hp)
+              brand: createVendecarroDto.brand, // Marca do carro
+              model: createVendecarroDto.model, // Nome/Modelo do carro
+              engine: createVendecarroDto.engine // Motor 2.0 turbo
+        }
+      })
     })
   }
 
