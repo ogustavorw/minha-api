@@ -8,6 +8,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { VendecarroService } from './vendecarro.service';
 import { CreateVendecarroDto } from './dto/create-vendecarro.dto';
@@ -24,8 +25,14 @@ export class VendecarroController {
   }
 
   @Get()
-  findAll() {
-    return this.vendecarroService.findAll();
+  findAll(
+    @Query('model') model?: string,
+    @Query('brand') brand?: string,
+    @Query('manufactureYear') manufactureYear?: number,
+    @Query('sort') sort: 'model' | 'brand' = 'model',
+    @Query('order') order: 'asc' | 'desc' = 'asc'
+  ) {
+    return this.vendecarroService.findAll(model, brand, manufactureYear, sort, order);
   }
 
   @Get(':id')

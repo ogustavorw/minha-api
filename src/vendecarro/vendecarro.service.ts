@@ -31,9 +31,43 @@ export class VendecarroService {
       })
     }
 
-  async findAll(): Promise<Vendecarro[]>  {
-    const vendecarro = await this.prisma.vendeCarro.findMany();
-    return vendecarro.map(vendecarro => this.mapToEntity(vendecarro));
+async findAll(
+    model?: string,
+    brand?: string,
+    manufactureYear?: number,
+    sort: 'model' | 'brand' = 'model',
+    order: 'asc' | 'desc' = 'asc'
+  ): Promise<Vendecarro[]> {
+    const where: any = {};
+
+    if (model) {
+      where.model = {
+        contains: model,
+        mode: 'insensitive',
+      };
+    }
+
+    if (brand) {
+      where.brand = {
+        equals: brand,
+        mode: 'insensitive',
+      };
+    }
+
+    if (manufactureYear !== undefined) {
+      where.manufactureYear = {
+        equals: Number(manufactureYear),
+      };
+    }
+
+    const cars = await this.prisma.vendeCarro.findMany({
+      where,
+      orderBy: {
+        [sort]: order,
+      },
+    });
+
+    return cars.map(vendecarro => this.mapToEntity(vendecarro));
   }
 
   async findOne(id: number): Promise<Vendecarro> {
